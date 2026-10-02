@@ -1,0 +1,6 @@
+{
+  "name": "CampusVault",
+  "description": "Student monthly expense tracker, personal budget manager, smart savings optimizer, and multi-asset micro-investment platform supporting savings accounts, index funds, crypto, P2P lending, and digital gold & silver.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

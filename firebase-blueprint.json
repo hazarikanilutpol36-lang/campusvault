@@ -1,0 +1,231 @@
+{
+  "entities": {
+    "BudgetProfile": {
+      "title": "BudgetProfile",
+      "description": "Stores a student's monthly budget limits, savings pool balance, and alert threshold.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The UID of the authenticated student owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "monthlyAllowance": {
+          "type": "number",
+          "description": "Total monthly student income or allowance in USD."
+        },
+        "savingsBalance": {
+          "type": "number",
+          "description": "Uninvested cash saved from budget optimizations or round-ups ready to invest."
+        },
+        "alertThresholdPercent": {
+          "type": "number",
+          "description": "Percentage threshold (50-100) at which category spending triggers an alert."
+        },
+        "foodLimit": {
+          "type": "number",
+          "description": "Monthly budget limit for Food & Dining."
+        },
+        "housingLimit": {
+          "type": "number",
+          "description": "Monthly budget limit for Textbooks & Academic."
+        },
+        "transitLimit": {
+          "type": "number",
+          "description": "Monthly budget limit for Campus Transit."
+        },
+        "subscriptionsLimit": {
+          "type": "number",
+          "description": "Monthly budget limit for Subscriptions & Apps."
+        },
+        "socialLimit": {
+          "type": "number",
+          "description": "Monthly budget limit for Coffee & Social."
+        },
+        "essentialsLimit": {
+          "type": "number",
+          "description": "Monthly budget limit for Dorm & Essentials."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update server timestamp."
+        }
+      },
+      "required": [
+        "userId",
+        "monthlyAllowance",
+        "savingsBalance",
+        "alertThresholdPercent",
+        "foodLimit",
+        "housingLimit",
+        "transitLimit",
+        "subscriptionsLimit",
+        "socialLimit",
+        "essentialsLimit",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ExpenseRecord": {
+      "title": "ExpenseRecord",
+      "description": "A single monthly expense logged by a student.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The UID of the student who logged the expense.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Merchant or item description.",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "category": {
+          "type": "string",
+          "description": "Expense category.",
+          "enum": ["Food & Dining", "Textbooks & Academic", "Campus Transit", "Subscriptions & Apps", "Coffee & Social", "Dorm & Essentials"]
+        },
+        "amount": {
+          "type": "number",
+          "description": "Expense amount in USD (> 0 and <= 100000)."
+        },
+        "dateStr": {
+          "type": "string",
+          "description": "ISO date string YYYY-MM-DD.",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "Payment method used.",
+          "enum": ["Campus Card", "Debit Card", "UPI / Wallet", "Cash"]
+        },
+        "isRecurring": {
+          "type": "boolean",
+          "description": "Whether this is a recurring monthly charge."
+        },
+        "roundUpSaved": {
+          "type": "number",
+          "description": "Spare change automatically routed to savings pool from this transaction."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created."
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "category",
+        "amount",
+        "dateStr",
+        "paymentMethod",
+        "isRecurring",
+        "roundUpSaved",
+        "createdAt"
+      ]
+    },
+    "InvestmentHolding": {
+      "title": "InvestmentHolding",
+      "description": "Represents an investment allocation made from saved student money into one of the 5 asset classes.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The UID of the student investor.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "assetClass": {
+          "type": "string",
+          "description": "The investment vehicle category.",
+          "enum": ["Low-Risk Savings", "Automated Index Funds", "Crypto", "P2P Lending", "Digital Gold & Silver"]
+        },
+        "instrumentName": {
+          "type": "string",
+          "description": "Specific instrument name (e.g., Campus High-Yield Vault 4.85% APY, S&P 500 Core ETF, 24K Digital Gold Vault).",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "investedAmount": {
+          "type": "number",
+          "description": "Total principal invested in USD."
+        },
+        "unitsOwned": {
+          "type": "number",
+          "description": "Quantity of shares, grams, ounces, or units held."
+        },
+        "expectedApy": {
+          "type": "number",
+          "description": "Annualized yield or historical return percentage."
+        },
+        "riskTier": {
+          "type": "string",
+          "description": "Risk classification.",
+          "enum": ["Low", "Moderate", "High", "Precious Metal"]
+        },
+        "autoInvestMonthly": {
+          "type": "number",
+          "description": "Recurring monthly auto-transfer from savings pool in USD."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Initial allocation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last allocation update server timestamp."
+        }
+      },
+      "required": [
+        "userId",
+        "assetClass",
+        "instrumentName",
+        "investedAmount",
+        "unitsOwned",
+        "expectedApy",
+        "riskTier",
+        "autoInvestMonthly",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/budgets/{budgetId}": {
+      "schema": {
+        "$ref": "#/entities/BudgetProfile"
+      },
+      "description": "Stores each student's budget limits and savings balance, keyed by userId."
+    },
+    "/expenses/{expenseId}": {
+      "schema": {
+        "$ref": "#/entities/ExpenseRecord"
+      },
+      "description": "Stores student monthly expense records."
+    },
+    "/investments/{investmentId}": {
+      "schema": {
+        "$ref": "#/entities/InvestmentHolding"
+      },
+      "description": "Stores student investment allocations across Low-Risk Savings, Index Funds, Crypto, P2P Lending, and Digital Gold & Silver."
+    }
+  }
+}
